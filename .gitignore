@@ -95,3 +95,9 @@ listings_*.csv
 
 # Exports temporaires de notebooks
 Projet_07_export.md
+
+# ============================================================
+# Fichiers source PowerPoint
+# ============================================================
+
+presentation/*.pptx

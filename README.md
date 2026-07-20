@@ -14,8 +14,6 @@ Le projet utilise principalement :
 - **Jupyter Notebook** pour documenter l’analyse ;
 - **Power BI** pour la restitution visuelle.
 
----
-
 ## Contexte
 
 Les données décrivent des annonces de locations de courte durée pour Paris
@@ -36,7 +34,9 @@ Le modèle documentaire MongoDB est adapté à ces données, car les annonces
 comportent un grand nombre de champs hétérogènes, dont certains peuvent être
 absents ou évoluer selon les extractions.
 
----
+## Présentation
+
+- [Consulter la présentation de soutenance au format PDF](presentation/projet-07-analyse-annonces-locatives.pdf)
 
 ## Objectifs
 
@@ -53,8 +53,6 @@ Le projet répond aux objectifs suivants :
 - préparer une restitution dans Power BI ;
 - expérimenter différentes architectures MongoDB locales.
 
----
-
 ## Technologies utilisées
 
 | Technologie | Utilisation |
@@ -69,24 +67,24 @@ Le projet répond aux objectifs suivants :
 | Git LFS | Versionnement du rapport Power BI |
 | Git et GitHub | Versionnement du projet |
 
----
-
 ## Arborescence du dépôt
 
 ```text
 .
+├── presentation/
+│   └── projet-07-analyse-annonces-locatives.pdf
 ├── .gitattributes
 ├── .gitignore
-├── README.md
 ├── Data Dictionary.csv
-├── Data Dictionary.xlsx
 ├── Projet 07.pbix
 ├── Projet_07.ipynb
 ├── poetry.lock
-└── pyproject.toml
+├── pyproject.toml
+└── README.md
 ```
 
-Les fichiers suivants ne sont pas publiés :
+Les fichiers et dossiers suivants sont conservés localement et exclus du
+dépôt :
 
 ```text
 listings_Paris.csv
@@ -96,10 +94,9 @@ mongo-shard/
 .ipynb_checkpoints/
 ```
 
-Les fichiers CSV sources et les fichiers internes de MongoDB peuvent être
-volumineux et sont reproductibles à partir des sources originales.
-
----
+Les fichiers CSV sources sont volumineux. Les dossiers `mongo-rs/` et
+`mongo-shard/` contiennent les fichiers internes produits par MongoDB et ne
+constituent pas une configuration reproductible.
 
 ## Dépendances Python
 
@@ -128,8 +125,6 @@ Lancement du notebook :
 poetry run jupyter notebook Projet_07.ipynb
 ```
 
----
-
 ## Sources de données
 
 Le projet utilise deux fichiers d’annonces :
@@ -148,10 +143,7 @@ Le dictionnaire de données est fourni dans deux formats :
 
 ```text
 Data Dictionary.csv
-Data Dictionary.xlsx
 ```
-
----
 
 ## Structure des données
 
@@ -209,8 +201,6 @@ Une annonce comporte notamment les familles d’informations suivantes.
 - `review_scores_rating`
 - `reviews_per_month`
 
----
-
 ## Base MongoDB analysée
 
 Le notebook se connecte à une instance MongoDB locale :
@@ -230,8 +220,6 @@ Le chargement initial des CSV dans MongoDB a été réalisé en amont du
 notebook.
 
 Le dépôt ne contient pas encore de script automatisant cet import.
-
----
 
 ## Projection MongoDB
 
@@ -257,8 +245,6 @@ Cette projection réduit :
 - le temps de création du DataFrame ;
 - le nombre de colonnes à nettoyer.
 
----
-
 ## Chargement dans Polars
 
 Les documents MongoDB sont convertis en DataFrame Polars :
@@ -281,8 +267,6 @@ df = df.with_columns([
 ```
 
 L’analyse porte sur **95 885 annonces parisiennes**.
-
----
 
 ## Indicateurs calculés
 
@@ -317,8 +301,6 @@ Résultats moyens par type de logement :
 | Shared room | 19,26 |
 | Hotel room | 15,93 |
 
----
-
 ### Médiane du nombre d’avis
 
 La médiane globale est :
@@ -329,8 +311,6 @@ La médiane globale est :
 
 La médiane est utilisée plutôt que la moyenne afin de limiter l’influence des
 logements possédant un nombre exceptionnellement élevé d’avis.
-
----
 
 ### Analyse des super-hôtes
 
@@ -355,8 +335,6 @@ supérieure.
 Cette différence ne démontre cependant pas à elle seule une relation de
 causalité.
 
----
-
 ### Densité des logements par quartier
 
 Les annonces sont regroupées par `neighbourhood_cleansed`.
@@ -372,8 +350,6 @@ Les quartiers possédant le plus d’annonces sont :
 | Entrepôt | 6 558 | 6,84 % |
 
 Buttes-Montmartre représente à lui seul environ 11 % des annonces analysées.
-
----
 
 ### Quartiers les moins disponibles
 
@@ -392,8 +368,6 @@ par mois sont :
 | Panthéon | 20,18 | 3 010 |
 | Vaugirard | 20,05 | 7 802 |
 | Observatoire | 19,82 | 3 611 |
-
----
 
 ## Analyse Power BI
 
@@ -416,8 +390,6 @@ notamment :
 
 Le fichier PBIX est versionné avec Git LFS afin de ne pas alourdir directement
 l’historique Git.
-
----
 
 ## Architectures MongoDB locales
 
@@ -452,7 +424,6 @@ mongodb://localhost:27017/
 Le dépôt ne fournit actuellement ni fichier Docker Compose ni script permettant
 de reconstruire automatiquement le replica set ou le cluster shardé.
 
----
 
 ## Sécurité et gestion des fichiers
 
@@ -473,8 +444,6 @@ Le rapport Power BI est suivi avec la règle Git LFS :
 *.pbix filter=lfs diff=lfs merge=lfs -text
 ```
 
----
-
 ## Limites
 
 Plusieurs limites doivent être prises en compte :
@@ -488,8 +457,6 @@ Plusieurs limites doivent être prises en compte :
 - l’indicateur dérivé de `availability_365` est une estimation ;
 - une indisponibilité ne correspond pas nécessairement à une réservation ;
 - le rapport Power BI dépend de données locales non publiées.
-
----
 
 ## Évolutions possibles
 
@@ -508,8 +475,6 @@ Le projet pourrait être enrichi avec :
 - une documentation du modèle documentaire ;
 - une chaîne d’exécution complète.
 
----
-
 ## Compétences démontrées
 
 - conception d’une base documentaire ;
@@ -525,8 +490,6 @@ Le projet pourrait être enrichi avec :
 - création d’un rapport Power BI ;
 - gestion de fichiers volumineux avec Git LFS ;
 - documentation des limites de reproductibilité.
-
----
 
 ## Auteur
 
